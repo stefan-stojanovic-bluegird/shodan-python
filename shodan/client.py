@@ -82,7 +82,7 @@ class Shodan:
                 args['type'] = type
             return self.parent._request('/dns/domain/{}'.format(domain), args)
 
-        def domain_resolve(self, hostnames):
+        def dns_resolve(self, hostnames):
             """
             DNS Lookup
             
@@ -99,7 +99,7 @@ class Shodan:
             query_args["hostnames"] = csv_from_list(hostnames)
             return self.parent._request("/dns/resolve", query_args)
         
-        def domain_reverse(self,ips):
+        def dns_reverse(self,ips):
             """
             Reverse DNS Lookup
 
@@ -107,7 +107,7 @@ class Shodan:
            
             :param ips
             :type List
-            
+
             :returns Dictionary where key is ip and value is a List with hostnames
             """
 
