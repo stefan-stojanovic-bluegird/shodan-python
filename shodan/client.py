@@ -13,8 +13,9 @@ import requests
 import json
 
 from .exception import APIError
-from .helpers import api_request, create_facet_string
+from .helpers import api_request, create_facet_string,csv_from_list
 from .stream import Stream
+
 
 
 # Try to disable the SSL warnings in urllib3 since not everybody can install
@@ -80,6 +81,39 @@ class Shodan:
             if type:
                 args['type'] = type
             return self.parent._request('/dns/domain/{}'.format(domain), args)
+
+        def domain_resolve(self, hostnames):
+            """
+            DNS Lookup
+            
+            Look up the IP address for the provided list of hostnames.
+
+            :param hostnames
+
+            :type List
+
+            :returns Dictionary where key is hostname and value is ip address
+
+            """
+            query_args = {}
+            query_args["hostnames"] = csv_from_list(hostnames)
+            return self.parent._request("/dns/resolve", query_args)
+        
+        def domain_reverse(self,ips):
+            """
+            Reverse DNS Lookup
+
+            Look up the hostnames that have been defined for the given list of IP addresses.
+           
+            :param ips
+            :type List
+            
+            :returns Dictionary where key is ip and value is a List with hostnames
+            """
+
+            query_args = {}
+            query_args["ips"] = csv_from_list(ips)
+            return self.parent._request( "/dns/reverse", query_args )
 
     class Notifier:
 
@@ -158,6 +192,17 @@ class Shodan:
             :returns: str -- your IP address
             """
             return self.parent._request('/tools/myip', {})
+
+        def httpheaders(self):
+            """
+            HTTP Headers
+            
+            Shows the HTTP headers that your client sends when connecting to a webserver.
+
+            :returns Dictionary with headers
+
+            """
+            return self.parent._request("/tools/httpheaders", {})
 
     class Exploits:
 

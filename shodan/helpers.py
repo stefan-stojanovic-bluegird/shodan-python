@@ -10,6 +10,9 @@ except NameError:
     basestring = str
 
 
+def csv_from_list(old_list):
+    return ",".join(old_list)
+
 def create_facet_string(facets):
     """Converts a Python list of facets into a comma-separated string that can be understood by
     the Shodan API.
