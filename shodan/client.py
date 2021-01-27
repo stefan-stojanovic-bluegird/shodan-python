@@ -430,6 +430,12 @@ class Shodan:
         """
         return self._request('/api-info', {})
 
+    def profile(self):
+        """
+        Returns information about the Shodan account linked to this API key.
+        """
+        return self._request("/account/profile",{})
+
     def ports(self):
         """Get a list of ports that Shodan crawls
 
